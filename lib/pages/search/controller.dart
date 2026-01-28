@@ -74,7 +74,6 @@ class SearchController extends GetxController {
     // 统一风格的“轻提示”，并根据当前主题（亮/暗）切换提示框的底色与文字色
     final isDark = Get.theme.brightness == Brightness.dark;
 
-    // 用户要求：把之前写反的对调
     // 日间(亮色)：白底黑字；夜间(暗色)：黑底白字
     final bgColor = isDark ? Colors.black.withOpacity(0.78) : Colors.white.withOpacity(0.94);
     final textColor = isDark ? Colors.white : Colors.black87;
@@ -85,24 +84,36 @@ class SearchController extends GetxController {
     Get.rawSnackbar(
       snackStyle: SnackStyle.FLOATING,
       backgroundColor: bgColor,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      borderRadius: 16,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      // 让提示框更宽：减少左右 margin，并把消息区域宽度拉到接近全宽
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      borderRadius: 12,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
       snackPosition: SnackPosition.BOTTOM,
       duration: const Duration(seconds: 5),
       animationDuration: const Duration(milliseconds: 180),
       messageText: ConstrainedBox(
         constraints: BoxConstraints(
-          minWidth: Get.width * 0.86, // 提示框更宽（约原来的两倍视觉宽度）
-          maxWidth: Get.width * 0.92,
+          // 稍微变窄：两侧留更多空白
+          minWidth: Get.width * 0.76,
+          maxWidth: Get.width * 0.82,
         ),
-        child: Text(
-          "点那么快爬虫呢？这不是bug等5秒自动搜索",
-          style: TextStyle(
-            color: textColor,
-            fontSize: 13,
-            height: 1.25,
-            fontWeight: FontWeight.w500,
+        child: SizedBox(
+          // 高度约为当前的 2 倍（更“厚”的提示框）
+          height: 72,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                "点那么快爬虫呢？这不是bug等5秒自动搜索",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 13,
+                  height: 1.25,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
           ),
         ),
       ),
