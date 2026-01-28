@@ -71,10 +71,13 @@ class SearchController extends GetxController {
   }
 
   void _showCooldownTip() {
-    // 统一风格的“轻提示”，并适配夜间模式（用户要求：夜间=白底黑字）
+    // 统一风格的“轻提示”，并根据当前主题（亮/暗）切换提示框的底色与文字色
     final isDark = Get.theme.brightness == Brightness.dark;
-    final bgColor = isDark ? Colors.white.withOpacity(0.94) : Colors.black.withOpacity(0.78);
-    final textColor = isDark ? Colors.black87 : Colors.white;
+
+    // 用户要求：把之前写反的对调
+    // 日间(亮色)：白底黑字；夜间(暗色)：黑底白字
+    final bgColor = isDark ? Colors.black.withOpacity(0.78) : Colors.white.withOpacity(0.94);
+    final textColor = isDark ? Colors.white : Colors.black87;
 
     // 防止连点时堆叠很多提示
     Get.closeAllSnackbars();
@@ -84,21 +87,28 @@ class SearchController extends GetxController {
       backgroundColor: bgColor,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       borderRadius: 16,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       snackPosition: SnackPosition.BOTTOM,
       duration: const Duration(seconds: 5),
       animationDuration: const Duration(milliseconds: 180),
-      messageText: Text(
-        "点那么快爬虫呢？这不是bug等5秒自动搜索",
-        style: TextStyle(
-          color: textColor,
-          fontSize: 13,
-          height: 1.25,
-          fontWeight: FontWeight.w500,
+      messageText: ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: Get.width * 0.86, // 提示框更宽（约原来的两倍视觉宽度）
+          maxWidth: Get.width * 0.92,
+        ),
+        child: Text(
+          "点那么快爬虫呢？这不是bug等5秒自动搜索",
+          style: TextStyle(
+            color: textColor,
+            fontSize: 13,
+            height: 1.25,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
   }
+
 
   void _startCooldown() {
   // 站点提示：两次搜索间隔不得少于 5 秒
