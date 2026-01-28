@@ -70,7 +70,37 @@ class SearchController extends GetxController {
     Get.focusScope?.unfocus();
   }
 
-void _startCooldown() {
+  void _showCooldownTip() {
+    // 统一风格的“轻提示”，并适配夜间模式（用户要求：夜间=白底黑字）
+    final isDark = Get.theme.brightness == Brightness.dark;
+    final bgColor = isDark ? Colors.white.withOpacity(0.94) : Colors.black.withOpacity(0.78);
+    final textColor = isDark ? Colors.black87 : Colors.white;
+
+    // 防止连点时堆叠很多提示
+    Get.closeAllSnackbars();
+
+    Get.rawSnackbar(
+      snackStyle: SnackStyle.FLOATING,
+      backgroundColor: bgColor,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      borderRadius: 16,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 5),
+      animationDuration: const Duration(milliseconds: 180),
+      messageText: Text(
+        "点那么快爬虫呢？这不是bug等5秒自动搜索",
+        style: TextStyle(
+          color: textColor,
+          fontSize: 13,
+          height: 1.25,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+  void _startCooldown() {
   // 站点提示：两次搜索间隔不得少于 5 秒
   _cooldownTimer?.cancel();
   cooldownSeconds.value = 5;
@@ -105,24 +135,18 @@ void _startCooldown() {
       cooldownSeconds.value -= 1;
     }
   });
-}
+  }
 
 
   Future<IndicatorResult> getPage(bool loadMore) async {
-// 冷却中：不再重复发请求；把“最后一次点击的关键词”排队，冷却结束后自动搜索
-if (!loadMore && cooldownSeconds.value > 0) {
-  pendingKeyword.value = keywordController.text;
-  _pendingSearchMode = searchMode.value;
+    // 冷却中：不再重复发请求；把“最后一次点击的关键词”排队，冷却结束后自动搜索
+    if (!loadMore && cooldownSeconds.value > 0) {
+      pendingKeyword.value = keywordController.text;
+      _pendingSearchMode = searchMode.value;
 
-  Get.rawSnackbar(
-    title: "提示",
-    message: "点那么快爬虫呢，这不是bug等5秒",
-    snackPosition: SnackPosition.BOTTOM,
-    duration: const Duration(milliseconds: 900),
-    animationDuration: const Duration(milliseconds: 120),
-  );
-  return IndicatorResult.fail;
-}
+      _showCooldownTip();
+      return IndicatorResult.fail;
+    }
     if (!loadMore) pageState.value = PageState.loading;
 
     if (!loadMore) {
@@ -161,13 +185,7 @@ if (!loadMore && cooldownSeconds.value > 0) {
               pageState.value = data.isNotEmpty ? PageState.success : PageState.pleaseSelect;
               _startCooldown();
 
-              Get.rawSnackbar(
-                title: "提示",
-                message: "点那么快爬虫呢，这不是bug等5秒",
-                snackPosition: SnackPosition.BOTTOM,
-                duration: const Duration(milliseconds: 900),
-                animationDuration: const Duration(milliseconds: 120),
-              );
+              _showCooldownTip();
             } else {
               Get.dialog(
                 AlertDialog(
