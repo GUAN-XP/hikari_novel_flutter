@@ -32,7 +32,7 @@ class _LoginFormPageState extends State<LoginFormPage> {
     super.dispose();
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
@@ -50,81 +50,95 @@ class _LoginFormPageState extends State<LoginFormPage> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                  // Top logo (horizontally centered)
-                  Center(
-                    child: Image.asset(
-                      'assets/images/logo_transparent.png',
-                      width: 140,
-                      height: 140,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'HiKari Novel',
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: _usernameCtrl,
-                    textInputAction: TextInputAction.next,
-                    autofillHints: const [AutofillHints.username],
-                    decoration: InputDecoration(
-                      labelText: 'username'.tr,
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: _passwordCtrl,
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                    autofillHints: const [AutofillHints.password],
-                    decoration: InputDecoration(
-                      labelText: 'password'.tr,
-                      border: const OutlineInputBorder(),
-                    ),
-                    onSubmitted: (_) => _onLogin(),
-                  ),
-                  const SizedBox(height: 12),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(8),
-                    onTap: _showValiditySheet,
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: 'login_validity'.tr,
-                        border: const OutlineInputBorder(),
-                        isDense: true,
-                        suffixIcon: const Icon(Icons.arrow_drop_down),
+                      // Top logo (horizontally centered)
+                      Center(
+                        child: Image.asset(
+                          'assets/images/logo_transparent.png',
+                          width: 140,
+                          height: 140,
+                        ),
                       ),
-                      child: Text(_validityLabel(_usecookieSeconds)),
-                    ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'HiKari Novel',
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 24),
+                      TextField(
+                        controller: _usernameCtrl,
+                        textInputAction: TextInputAction.next,
+                        autofillHints: const [AutofillHints.username],
+                        decoration: InputDecoration(
+                          labelText: 'username'.tr,
+                          border: const OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: _passwordCtrl,
+                        obscureText: true,
+                        textInputAction: TextInputAction.done,
+                        autofillHints: const [AutofillHints.password],
+                        decoration: InputDecoration(
+                          labelText: 'password'.tr,
+                          border: const OutlineInputBorder(),
+                        ),
+                        onSubmitted: (_) => _onLogin(),
+                      ),
+                      const SizedBox(height: 12),
+
+                      // Validity selector (bottom sheet)
+                      InkWell(
+                        borderRadius: BorderRadius.circular(8),
+                        onTap: _showValiditySheet,
+                        child: InputDecorator(
+                          decoration: InputDecoration(
+                            labelText: 'login_validity'.tr,
+                            border: const OutlineInputBorder(),
+                            isDense: true,
+                            suffixIcon: const Icon(Icons.arrow_drop_down),
+                          ),
+                          child: Text(_validityLabel(_usecookieSeconds)),
+                        ),
+                      ),
+
+                      const SizedBox(height: 16),
+                      Obx(
+                        () => FilledButton.icon(
+                          onPressed:
+                              controller.isSubmitting.value ? null : _onLogin,
+                          icon: controller.isSubmitting.value
+                              ? const SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : const Icon(Icons.login),
+                          label: Text(
+                            controller.isSubmitting.value
+                                ? 'logging_in'.tr
+                                : 'login'.tr,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'login_form_tip'.tr,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodySmall
+                            ?.copyWith(color: theme.colorScheme.outline),
+                      ),
+                      const SizedBox(height: 8),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  Obx(
-                    () => FilledButton.icon(
-                      onPressed: controller.isSubmitting.value ? null : _onLogin,
-                      icon: controller.isSubmitting.value
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.login),
-                      label: Text(controller.isSubmitting.value ? 'logging_in'.tr : 'login'.tr),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'login_form_tip'.tr,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
-                  ),
-                  const SizedBox(height: 8),
-                ],
+                ),
               ),
             ),
-          ),
+
             // Fixed bottom-left entry, matching the original layout.
             Positioned(
               left: 12,
@@ -132,7 +146,8 @@ class _LoginFormPageState extends State<LoginFormPage> {
               child: TextButton.icon(
                 style: TextButton.styleFrom(
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 ),
                 onPressed: () => Get.toNamed(RoutePath.webLogin),
                 icon: const Icon(Icons.public),
@@ -144,6 +159,7 @@ class _LoginFormPageState extends State<LoginFormPage> {
       ),
     );
   }
+
   String _validityLabel(String seconds) {
     switch (seconds) {
       case "0":
@@ -206,12 +222,16 @@ class _LoginFormPageState extends State<LoginFormPage> {
           title: Text('error'.tr),
           content: Text('login_input_required'.tr),
           actions: [
-            TextButton(onPressed: () => Get.back(), child: Text('confirm'.tr)),
+            TextButton(
+              onPressed: () => Get.back(),
+              child: Text('confirm'.tr),
+            ),
           ],
         ),
       );
       return;
     }
+
     controller.login(
       username: username,
       password: password,
