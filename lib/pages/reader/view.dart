@@ -250,11 +250,11 @@ class ReaderPage extends StatelessWidget {
           onScroll: (position, max) {
             if (max == 0 && position == 0) {
               //仅一页的情况下
-              controller.location.value = 0;
+              controller.currentLocation.value = 0;
               controller.verticalProgress.value = 100;
               controller.setReadHistory(); //立即更新历史阅读记录
             } else if (max > 0) {
-              controller.location.value = position.toInt();
+              controller.currentLocation.value = position.toInt();
               controller.verticalProgress.value = ((position.toInt() / max.toInt()) * 100).toInt();
               //由controller的debounce监听location变化，判断是否更新历史阅读记录
             }

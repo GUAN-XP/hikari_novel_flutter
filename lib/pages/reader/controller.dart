@@ -72,7 +72,7 @@ class ReaderController extends GetxController {
   RxInt maxPage = 0.obs;
 
   ///阅读位置，竖向用
-  RxInt location = 0.obs;
+  RxInt currentLocation = 0.obs;
 
   ///竖向模式下，显示当前阅读进度的百分比
   RxInt verticalProgress = 0.obs;
@@ -112,10 +112,12 @@ class ReaderController extends GetxController {
 
     checkFontFile(true);
 
+    getInitLocation(); //事先赋值一下对应的变量，防止在build过程中修改obx变量
+
     //延迟更新阅读记录
     //debounce / ever / interval 只能在 Controller 生命周期里创建一次
     //TODO 还需要优化
-    interval(location, (_) => setReadHistory(), time: const Duration(milliseconds: 500));
+    interval(currentLocation, (_) => setReadHistory(), time: const Duration(milliseconds: 500));
     interval(currentIndex, (_) => setReadHistory(), time: const Duration(milliseconds: 500));
   }
 
@@ -155,7 +157,7 @@ class ReaderController extends GetxController {
     if (readerSettingsState.value.direction == ReaderDirection.upToDown) {
       try {
         int value = int.parse(Get.parameters["location"]!);
-        location.value = value;
+        currentLocation.value = value;
         return value;
       } catch (_) {
         return 0;
@@ -163,10 +165,9 @@ class ReaderController extends GetxController {
     } else {
       try {
         int value = int.parse(Get.parameters["location"]!);
-        currentIndex.value = value; //FIXME 在build过程中赋值此变量会出错
+        currentIndex.value = value;
         return value;
-      } catch (e) {
-        Log.d("getPos error -> ${e.toString()}");
+      } catch (_) {
         return 0;
       }
     }
@@ -298,7 +299,7 @@ class ReaderController extends GetxController {
         readerMode: readerSettingsState.value.direction == ReaderDirection.upToDown ? kScrollReadMode : kPageReadMode,
         // 1为滚动模式，2为翻页模式，翻页模式的左右方向不影响阅读记录的使用
         isDualPage: isDualPage,
-        location: readerSettingsState.value.direction == ReaderDirection.upToDown ? location.value : currentIndex.value,
+        location: readerSettingsState.value.direction == ReaderDirection.upToDown ? currentLocation.value : currentIndex.value,
         progress: readerSettingsState.value.direction == ReaderDirection.upToDown ? verticalProgress.value : horizontalProgress.value,
         isLatest: true,
       ),
