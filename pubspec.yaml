@@ -23,9 +23,6 @@ dependencies:
   # 浏览器
   flutter_inappwebview: ^6.1.5
 
-  # 图标
-  material_symbols_icons: ^4.2906.0
-
   # 设备信息
   device_info_plus: ^12.3.0
 

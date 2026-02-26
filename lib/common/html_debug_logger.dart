@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../service/dev_mode_service.dart';
@@ -91,11 +90,11 @@ class HtmlDebugLogger {
       final meta = <String, dynamic>{
         'time': DateTime.now().toIso8601String(),
         'scene': scene,
-        if (url != null) 'url': url,
-        if (title != null) 'title': title,
-        if (headers != null) 'headers': headers,
+        'url': ?url,
+        'title': ?title,
+        'headers': ?headers,
       };
-      final metaFile = File('${d.path}/' + name.replaceAll('.html', '.meta.json'));
+      final metaFile = File('${d.path}/${name.replaceAll('.html', '.meta.json')}');
       await metaFile.writeAsString(const JsonEncoder.withIndent('  ').convert(meta), flush: true);
 
       final preview = html.length > 500 ? html.substring(0, 500) : html;

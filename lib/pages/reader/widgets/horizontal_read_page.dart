@@ -3,9 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../common/log.dart';
 import '../../../network/request.dart';
-import '../../../widgets/state_page.dart';
 
 class HorizontalReadPage extends StatefulWidget {
   final String text;

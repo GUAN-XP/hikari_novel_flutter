@@ -4,10 +4,8 @@ import 'package:hikari_novel_flutter/pages/about/controller.dart';
 import 'package:hikari_novel_flutter/router/app_sub_router.dart';
 import 'package:hikari_novel_flutter/service/dev_mode_service.dart';
 import 'package:hikari_novel_flutter/widgets/custom_tile.dart';
-import 'package:hikari_novel_flutter/widgets/state_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../common/constants.dart';
 
 class AboutPage extends StatelessWidget {
   AboutPage({super.key});

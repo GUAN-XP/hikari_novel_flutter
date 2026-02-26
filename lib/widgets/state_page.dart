@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:wx_divider/wx_divider.dart';
 
 class ErrorMessage extends StatelessWidget {
@@ -69,7 +68,7 @@ class PleaseSelectPage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Symbols.web_traffic, size: 48),
+          const Icon(Icons.ads_click, size: 48),
           const SizedBox(height: 16),
           Text("please_select_type".tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
         ],

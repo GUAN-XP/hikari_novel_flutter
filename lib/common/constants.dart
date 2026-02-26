@@ -20,7 +20,3 @@ final TextStyle kCommentAndReplyUsernameTextStyle = TextStyle(fontSize: 15, font
 const int kScrollReadMode = 1;
 
 const int kPageReadMode = 2;
-
-const FontWeight kSymbolsIconFontWeight = FontWeight.w600;
-
-const double kSymbolsIconSize = 23;

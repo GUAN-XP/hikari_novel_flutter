@@ -3,14 +3,11 @@ import 'dart:io';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hikari_novel_flutter/common/constants.dart';
-import 'package:hikari_novel_flutter/common/extension.dart';
 import 'package:hikari_novel_flutter/models/common/language.dart';
 import 'package:hikari_novel_flutter/models/common/wenku8_node.dart';
 import 'package:hikari_novel_flutter/pages/setting/controller.dart';
 import 'package:hikari_novel_flutter/widgets/custom_tile.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:material_symbols_icons/symbols.dart';
 
 import '../../service/local_storage_service.dart';
 
@@ -95,7 +92,7 @@ class SettingPage extends StatelessWidget {
             return NormalTile(
               title: "node".tr,
               subtitle: controller.wenku8Node.value.node,
-              leading: const Icon(Symbols.network_node, fontWeight: kSymbolsIconFontWeight, size: kSymbolsIconSize),
+              leading: const Icon(Icons.lan_outlined),
               onTap: () =>
                   Get.dialog(
                     RadioListDialog(

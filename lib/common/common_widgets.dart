@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hikari_novel_flutter/widgets/custom_tile.dart';
-import 'package:hikari_novel_flutter/widgets/state_page.dart';
 
 import '../pages/bookshelf/controller.dart';
 import '../widgets/bottom_action_bar.dart';

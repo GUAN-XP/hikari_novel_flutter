@@ -5,7 +5,6 @@ import 'package:hikari_novel_flutter/models/novel_cover.dart';
 import 'package:hikari_novel_flutter/models/page_state.dart';
 import 'package:hikari_novel_flutter/models/resource.dart';
 import 'package:hikari_novel_flutter/network/parser.dart';
-import 'package:hikari_novel_flutter/router/app_sub_router.dart';
 
 import '../../common/database/database.dart';
 import '../../network/api.dart';

@@ -8,7 +8,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pub_semver/pub_semver.dart';
 import '../models/common/language.dart';
 import '../network/api.dart';
-import 'log.dart';
 
 class Util {
   static String getDateTime(String dateStr) {

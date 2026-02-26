@@ -3,12 +3,10 @@ import 'dart:io';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hikari_novel_flutter/common/constants.dart';
 import 'package:hikari_novel_flutter/common/extension.dart';
 import 'package:hikari_novel_flutter/service/tts_service.dart';
 import 'package:hikari_novel_flutter/widgets/custom_tile.dart';
 import 'package:hikari_novel_flutter/widgets/state_page.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 import '../../../models/dual_page_mode.dart';
 import '../../../models/reader_direction.dart';
@@ -31,10 +29,7 @@ class ReaderSettingPage extends StatelessWidget {
             tabs: [
               Tab(icon: const Icon(Icons.settings_outlined), text: "basic".tr),
               Tab(icon: const Icon(Icons.palette_outlined), text: "theme".tr),
-              Tab(
-                icon: const Icon(Symbols.ear_sound, fontWeight: kSymbolsIconFontWeight, size: kSymbolsIconSize),
-                text: "listen_to_books".tr,
-              ),
+              Tab(icon: const Icon(Icons.record_voice_over_outlined), text: "listen_to_books".tr),
               Tab(icon: const Icon(Icons.padding), text: "margin".tr),
             ],
           ),
@@ -144,7 +139,7 @@ class ReaderSettingPage extends StatelessWidget {
             child: NormalTile(
               title: "dual_page".tr,
               subtitle: controller.readerSettingsState.value.dualPageMode.name.tr,
-              leading: const Icon(Symbols.two_pager, fontWeight: kSymbolsIconFontWeight, size: kSymbolsIconSize),
+              leading: const Icon(Icons.looks_two_outlined),
               trailing: const Icon(Icons.keyboard_arrow_down),
               onTap: () =>
                   Get.dialog(
@@ -309,7 +304,7 @@ class ReaderSettingPage extends StatelessWidget {
                     subtitle: tts.engine.value == null
                         ? (Platform.isAndroid ? "auto".tr : "unsupportable_os_tip".tr)
                         : tts.displayEngineName(tts.engine.value!),
-                    leading: const Icon(Symbols.manufacturing, fontWeight: kSymbolsIconFontWeight, size: kSymbolsIconSize),
+                    leading: const Icon(Icons.settings_outlined),
                     trailing: const Icon(Icons.keyboard_arrow_down),
                     onTap: () async {
                       await tts.refreshEngines();
@@ -333,7 +328,7 @@ class ReaderSettingPage extends StatelessWidget {
                   () => NormalTile(
                     title: "timbre".tr,
                     subtitle: tts.voice.value == null ? "auto".tr : "${tts.voice.value!["name"]}(${tts.voice.value!["locale"]})",
-                    leading: const Icon(Symbols.voice_selection),
+                    leading: const Icon(Icons.surround_sound_outlined),
                     trailing: const Icon(Icons.keyboard_arrow_down),
                     onTap: () async {
                       await tts.refreshVoices();

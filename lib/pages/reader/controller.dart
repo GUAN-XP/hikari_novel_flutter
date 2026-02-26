@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:isolate';
 
 import 'package:battery_plus/battery_plus.dart';
 import 'package:file_picker/file_picker.dart';
